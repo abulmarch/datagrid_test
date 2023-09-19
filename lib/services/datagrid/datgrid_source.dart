@@ -60,14 +60,17 @@ class ApiDataSource extends DataGridSource {
 
   Widget getItemTypes(String? type1, String? color) {
     Color? bgColor = convertStringToColor(color ?? '');
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-      Container(
-        padding: const EdgeInsets.all(1),
-        decoration: BoxDecoration(
-            color: bgColor, borderRadius: BorderRadius.circular(5)),
-        child: Center(child: Text(type1 ?? '')),
-      ),
-    ]);
+    return Container(
+      height: 30,
+            width: 100,
+      decoration: BoxDecoration(
+          color: bgColor, borderRadius: BorderRadius.circular(5)),
+      child: Center(child: Text(type1  ?? '', style:  const TextStyle(
+                color: Colors.black,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),)),
+    );
   }
 
   Widget getLevel(dynamic value) {
@@ -76,13 +79,15 @@ class ApiDataSource extends DataGridSource {
       runSpacing: 1,
       children: value.map<Widget>((dynamic item) {
         if (item is ItemType) {
-          // If it's an ItemType, handle it accordingly
+          
           final itemType = item;
           final color = itemType.color;
           final bgColor = convertStringToColor(
-              color ?? ''); // Convert color string to Color
+              color ?? ''); 
 
           return Container(
+            height: 30,
+            width: 100,
             margin: const EdgeInsets.all(2),
             padding: const EdgeInsets.all(2),
             decoration: BoxDecoration(
@@ -94,16 +99,14 @@ class ApiDataSource extends DataGridSource {
               itemType.value ?? '',
               style: const TextStyle(
                 color: Colors.black,
-                fontSize: 10,
+                fontSize: 12,
                 fontWeight: FontWeight.w400,
               ),
             )),
           );
         } else if (item is String) {
-          // If it's a String, you can handle it as a text widget
           return Text(item);
         } else {
-          // Handle other types as needed
           return Text('$item');
         }
       }).toList(),
@@ -186,7 +189,6 @@ Color getRowBackgroundColor(DataGridRow row) {
           width: 300,
           child: Text(
             row.getCells()[2].value.toString(),
-            maxLines: 5,
           ),
         ),
         buildCalender(row),

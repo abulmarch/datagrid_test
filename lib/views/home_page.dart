@@ -62,7 +62,8 @@ class _HomePageState extends State<HomePage> {
             return const Center(child: CircularProgressIndicator(color: Color(0XFF003b6d),));
           }else if (snapshot.hasError){
             return Center(child: Text("Error: ${snapshot.error}"));
-          } else{
+          } 
+          else{
             final dataList = snapshot.data;
             apiDataSource = ApiDataSource(dataModel: dataList!, context: context);
             return SfDataGridTheme(
@@ -83,7 +84,9 @@ class _HomePageState extends State<HomePage> {
                     }
                   },
                   headerGridLinesVisibility: GridLinesVisibility.vertical,
-                  rowHeight: 80,
+                  onQueryRowHeight: (details) {
+                    return details.getIntrinsicRowHeight(details.rowIndex);
+                  },
                   frozenColumnsCount: 2,
                   source: apiDataSource,
                   gridLinesVisibility: GridLinesVisibility.both,
@@ -150,7 +153,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     GridColumn(
-                      width: 100,
+                      width: 200,
                       columnName: 'itemtype1',
                       label: Container(
                         padding: const EdgeInsets.all(8.0),
@@ -162,7 +165,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     GridColumn(
-                      width: 100,
+                      width: 200,
                       columnName: 'itemtype2',
                       label: Container(
                         padding: const EdgeInsets.all(8.0),
