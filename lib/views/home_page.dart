@@ -76,12 +76,13 @@ class _HomePageState extends State<HomePage> {
                   frozenPaneLineColor: Colors.grey,
                   gridLineColor: Colors.grey),
               child: SfDataGrid(
+                
                 onCellTap: (gridCellTapDetails) {
-                  final rowIndex = gridCellTapDetails.rowColumnIndex.rowIndex;
+                  final rowIndex = gridCellTapDetails.rowColumnIndex.rowIndex-2;
                   if (rowIndex >= 0 &&
                       rowIndex < apiDataSource.fetchData.length) {
                     final tappedDataModel =
-                        apiDataSource.fetchData[rowIndex - 1];
+                        apiDataSource.fetchData[rowIndex];
                     handleRowTap(
                       tappedDataModel,
                     );
@@ -96,6 +97,7 @@ class _HomePageState extends State<HomePage> {
                 gridLinesVisibility: GridLinesVisibility.both,
                 columns: buildtable.buildColumns(context),
                 stackedHeaderRows: buildtable.buildStackedHeader(context),
+                
               ),
             );
           }
