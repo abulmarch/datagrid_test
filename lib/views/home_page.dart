@@ -1,7 +1,7 @@
-
 import 'package:datagrid_test/services/datagrid/datgrid_source.dart';
 import 'package:datagrid_test/services/models/datamodels.dart';
 import 'package:datagrid_test/services/repo/data_repository.dart';
+import 'package:datagrid_test/views/build_columns.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -21,15 +21,16 @@ class _HomePageState extends State<HomePage> {
   final dataRepository = DataRepository();
   bool isLoading = true;
   List<DataModel> dataList = [];
+  final buildtable = BuildTable();
   @override
   void initState() {
     super.initState();
   }
 
-
   Future<List<DataModel>> fetchData() async {
     return dataRepository.fetchData();
   }
+
   void handleRowTap(DataGridRow row) {
     final isActive = row.getCells()[10].value;
     if (isActive == true) {
@@ -55,157 +56,50 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      body:  FutureBuilder<List<DataModel>>(
+      body: FutureBuilder<List<DataModel>>(
         future: fetchData(),
-        builder:(context, snapshot) {
+        builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator(color: Color(0XFF003b6d),));
-          }else if (snapshot.hasError){
+            return const Center(
+                child: CircularProgressIndicator(
+              color: Color(0XFF003b6d),
+            ));
+          } else if (snapshot.hasError) {
             return Center(child: Text("Error: ${snapshot.error}"));
-          } 
-          else{
+          } else {
             final dataList = snapshot.data;
-            apiDataSource = ApiDataSource(dataModel: dataList!, context: context);
+            apiDataSource =
+                ApiDataSource(dataModel: dataList!, context: context);
             return SfDataGridTheme(
-                data: SfDataGridThemeData(
-                    headerColor: const Color(0XFF003b6d),
-                    frozenPaneLineColor: Colors.grey,
-                    gridLineColor: Colors.grey),
-                child: SfDataGrid(
-                  onCellTap: (gridCellTapDetails) {
-                    final rowIndex = gridCellTapDetails.rowColumnIndex.rowIndex;
-                    if (rowIndex >= 0 &&
-                        rowIndex < apiDataSource.fetchData.length) {
-                      final tappedDataModel =
-                          apiDataSource.fetchData[rowIndex - 1];
-                      handleRowTap(
-                        tappedDataModel,
-                      );
-                    }
-                  },
-                  headerGridLinesVisibility: GridLinesVisibility.vertical,
-                  onQueryRowHeight: (details) {
-                    return details.getIntrinsicRowHeight(details.rowIndex);
-                  },
-                  frozenColumnsCount: 2,
-                  source: apiDataSource,
-                  gridLinesVisibility: GridLinesVisibility.both,
-                  columns: <GridColumn>[
-                    GridColumn(
-                      width: 100,
-                      columnName: 'id',
-                      label: Container(
-                        padding: const EdgeInsets.all(16.0),
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'ID',
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                      ),
-                    ),
-                    GridColumn(
-                      width: 100,
-                      columnName: 'itemId',
-                      label: Container(
-                        padding: const EdgeInsets.all(16.0),
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'itemId',
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                      ),
-                    ),
-                    GridColumn(
-                      width: 300,
-                      columnName: 'title',
-                      label: Container(
-                        height: 300,
-                        padding: const EdgeInsets.all(8.0),
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Title',
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                      ),
-                    ),
-                    GridColumn(
-                      width: 150,
-                      columnName: 'date',
-                      label: Container(
-                        padding: const EdgeInsets.all(8.0),
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Date',
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                      ),
-                    ),
-                    GridColumn(
-                      width: 150,
-                      columnName: 'status',
-                      label: Container(
-                        padding: const EdgeInsets.all(8.0),
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Status',
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                      ),
-                    ),
-                    GridColumn(
-                      width: 200,
-                      columnName: 'itemtype1',
-                      label: Container(
-                        padding: const EdgeInsets.all(8.0),
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Item Type 1',
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                      ),
-                    ),
-                    GridColumn(
-                      width: 200,
-                      columnName: 'itemtype2',
-                      label: Container(
-                        padding: const EdgeInsets.all(8.0),
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Item Type 2',
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                      ),
-                    ),
-                    GridColumn(
-                      width: 210,
-                      columnName: 'level1',
-                      label: Container(
-                        padding: const EdgeInsets.all(8.0),
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Level 1',
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                      ),
-                    ),
-                    GridColumn(
-                      width: 210,
-                      columnName: 'level2',
-                      label: Container(
-                        padding: const EdgeInsets.all(8.0),
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Level 2',
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
+              data: SfDataGridThemeData(
+                  headerColor: const Color(0XFF003b6d),
+                  frozenPaneLineColor: Colors.grey,
+                  gridLineColor: Colors.grey),
+              child: SfDataGrid(
+                onCellTap: (gridCellTapDetails) {
+                  final rowIndex = gridCellTapDetails.rowColumnIndex.rowIndex;
+                  if (rowIndex >= 0 &&
+                      rowIndex < apiDataSource.fetchData.length) {
+                    final tappedDataModel =
+                        apiDataSource.fetchData[rowIndex - 1];
+                    handleRowTap(
+                      tappedDataModel,
+                    );
+                  }
+                },
+                headerGridLinesVisibility: GridLinesVisibility.both,
+                onQueryRowHeight: (details) {
+                  return details.getIntrinsicRowHeight(details.rowIndex);
+                },
+                frozenColumnsCount: 2,
+                source: apiDataSource,
+                gridLinesVisibility: GridLinesVisibility.both,
+                columns: buildtable.buildColumns(context),
+                stackedHeaderRows: buildtable.buildStackedHeader(context),
+              ),
+            );
           }
         },
-         
       ),
     ));
   }

@@ -60,16 +60,20 @@ class ApiDataSource extends DataGridSource {
 
   Widget getItemTypes(String? type1, String? color) {
     Color? bgColor = convertStringToColor(color ?? '');
-    return Container(
-      height: 30,
-            width: 100,
-      decoration: BoxDecoration(
-          color: bgColor, borderRadius: BorderRadius.circular(5)),
-      child: Center(child: Text(type1  ?? '', style:  const TextStyle(
-                color: Colors.black,
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-              ),)),
+    return Wrap(
+      alignment: WrapAlignment.spaceAround,
+      runAlignment: WrapAlignment.center,
+      children: [Container(
+        width: 100,
+        padding: const EdgeInsets.all(5),
+        decoration: BoxDecoration(
+            color: bgColor, borderRadius: BorderRadius.circular(5)),
+        child: Center(child: Text(type1  ?? '', style:  const TextStyle(
+                  color: Colors.black,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),)),
+      ),]
     );
   }
 
@@ -86,10 +90,9 @@ class ApiDataSource extends DataGridSource {
               color ?? ''); 
 
           return Container(
-            height: 30,
             width: 100,
             margin: const EdgeInsets.all(2),
-            padding: const EdgeInsets.all(2),
+            padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
               color: bgColor,
               borderRadius: BorderRadius.circular(5),
@@ -169,10 +172,11 @@ Color getRowBackgroundColor(DataGridRow row) {
     }
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
-    
     return DataGridRowAdapter(
+      
       color: getRowBackgroundColor(row),
       cells: [
+         
         Container(
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.all(5.0),
